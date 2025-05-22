@@ -34,6 +34,12 @@ async function run() {
     const trendingCollection = client.db('gardenDB').collection('trending');
 
      
+       app.get('/mygardens/:email', async(req,res)=>{
+        const email = req.params.email;           
+        const query = {email}
+        const result = await gardensCollection.find(query).toArray();
+        res.send(result);
+      });
 
       app.post('/gardens', async(req,res) =>{
         const newGardenTip = req.body;
