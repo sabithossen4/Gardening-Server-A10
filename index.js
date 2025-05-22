@@ -35,6 +35,13 @@ async function run() {
 
      
 
+      app.post('/gardens', async(req,res) =>{
+        const newGardenTip = req.body;
+        console.log(newGardenTip);
+        const result = await gardensCollection.insertOne(newGardenTip);
+        res.send(result);
+      })
+
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
