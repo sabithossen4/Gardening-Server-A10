@@ -33,6 +33,12 @@ async function run() {
     const featuredGardeners = client.db('gardenDB').collection('featured-gardeners');
     const trendingCollection = client.db('gardenDB').collection('trending');
 
+
+          app.get('/gardens', async(req,res)=>{        
+        const result = await gardensCollection.find({availability: "Public"}).toArray();
+        res.send(result);
+      });
+
         app.get('/gardens/:id', async(req,res)=>{
         const id = req.params.id;           
         const query = {_id: new ObjectId(id)}
