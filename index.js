@@ -33,6 +33,12 @@ async function run() {
     const featuredGardeners = client.db('gardenDB').collection('featured-gardeners');
     const trendingCollection = client.db('gardenDB').collection('trending');
 
+        app.get('/gardens/:id', async(req,res)=>{
+        const id = req.params.id;           
+        const query = {_id: new ObjectId(id)}
+        const result = await gardensCollection.findOne(query);
+        res.send(result);
+      });
      
        app.get('/mygardens/:email', async(req,res)=>{
         const email = req.params.email;           
