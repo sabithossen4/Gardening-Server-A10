@@ -33,6 +33,11 @@ async function run() {
     const featuredGardeners = client.db('gardenDB').collection('featured-gardeners');
     const trendingCollection = client.db('gardenDB').collection('trending');
 
+        app.get('/featured-gardeners', async(req,res)=>{
+        const result = await featuredGardeners.find({status:"active"}).limit(6).toArray();
+        res.send(result);
+      });
+
         app.get('/trending', async(req,res)=>{
         const result = await trendingCollection.find({status:"trending"}).limit(6).toArray();
         res.send(result);
