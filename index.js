@@ -38,6 +38,11 @@ async function run() {
         res.send(result);
       });
 
+        app.get('/explore-gardeners', async(req,res)=>{
+        const result = await featuredGardeners.find().toArray();
+        res.send(result);
+      });
+
         app.get('/trending', async(req,res)=>{
         const result = await trendingCollection.find({status:"trending"}).limit(6).toArray();
         res.send(result);
