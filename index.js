@@ -29,12 +29,28 @@ async function run() {
     // await client.connect();
 
     const gardensCollection = client.db('gardenDB').collection('gardens');
+
+    const trendingCollection = client.db('gardenDB').collection('trending');
    
     const featuredGardeners = client.db('gardenDB').collection('featured-gardeners');
-    const trendingCollection = client.db('gardenDB').collection('trending');
+
+    const seasonalTips = client.db('gardenDB').collection('seasonal-tips');
+
+    const gardenTools = client.db('gardenDB').collection('garden-tools');
+    
 
         app.get('/featured-gardeners', async(req,res)=>{
         const result = await featuredGardeners.find({status:"active"}).limit(6).toArray();
+        res.send(result);
+      });
+
+        app.get('/seasonal-tips', async(req,res)=>{
+        const result = await seasonalTips.find().toArray();
+        res.send(result);
+      });
+
+        app.get('/garden-tools', async(req,res)=>{
+        const result = await gardenTools.find().toArray();
         res.send(result);
       });
 
