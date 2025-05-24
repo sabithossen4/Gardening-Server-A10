@@ -47,9 +47,23 @@ async function run() {
         const result = await trendingCollection.find({status:"trending"}).limit(6).toArray();
         res.send(result);
       });
+       
+      // challeng part
+//       app.get('/gardens', async(req,res)=>{        
+  
 
-          app.get('/gardens', async(req,res)=>{        
-        const result = await gardensCollection.find({availability: "Public"}).toArray();
+//   const result = await gardensCollection.find(query).toArray();
+//   res.send(result);
+// });
+
+          app.get('/gardens', async(req,res)=>{   
+            const difficulty = req.query.difficulty;
+  const query = { availability: "Public" };
+
+  if (difficulty) {
+    query.difficulty = difficulty;
+  }     
+        const result = await gardensCollection.find(query).toArray();
         res.send(result);
       });
 
@@ -68,11 +82,21 @@ async function run() {
       });
 
       app.post('/gardens', async(req,res) =>{
-        const newGardenTip = req.body;
+        const newGardenTip ={ ...req.body,
+    totalLiked: 0,} ;
         console.log(newGardenTip);
         const result = await gardensCollection.insertOne(newGardenTip);
         res.send(result);
       })
+
+//       app.post('/gardens', async (req, res) => {
+//   const newGardenTip = {
+//     ...req.body,
+//     totalLiked: 0, // initialize like count
+//   };
+//   const result = await gardensCollection.insertOne(newGardenTip);
+//   res.send(result);
+// });
 
       app.delete('/gardens/:id' ,async(req,res) =>{
         const id = req.params.id;
@@ -93,6 +117,27 @@ async function run() {
 
             res.send(result);
         })
+
+
+        app.put('/gardens/:id/like', async (req, res) => {
+  const id = req.params.id;
+  const query = { _id: new ObjectId(id) };
+  const updateDoc = {
+    $inc: { totalLiked: 1 }
+  };
+  try {
+    const result = await gardensCollection.findOneAndUpdate(query, updateDoc, { returnDocument: 'after' });
+    res.send(result.value); 
+  } catch (error) {
+    res.status(500).send({ message: 'Failed to like the tip', error });
+  }
+});
+
+
+
+
+
+
 
 
     // Send a ping to confirm a successful connection
