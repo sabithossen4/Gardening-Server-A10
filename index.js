@@ -12,8 +12,6 @@ app.use(express.json());
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.o1uqrsp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 
-
-
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
   serverApi: {
@@ -64,14 +62,7 @@ async function run() {
         res.send(result);
       });
        
-      // challeng part
-//       app.get('/gardens', async(req,res)=>{        
-  
-
-//   const result = await gardensCollection.find(query).toArray();
-//   res.send(result);
-// });
-
+ 
           app.get('/gardens', async(req,res)=>{   
             const difficulty = req.query.difficulty;
   const query = { availability: "Public" };
@@ -105,14 +96,6 @@ async function run() {
         res.send(result);
       })
 
-//       app.post('/gardens', async (req, res) => {
-//   const newGardenTip = {
-//     ...req.body,
-//     totalLiked: 0, // initialize like count
-//   };
-//   const result = await gardensCollection.insertOne(newGardenTip);
-//   res.send(result);
-// });
 
       app.delete('/gardens/:id' ,async(req,res) =>{
         const id = req.params.id;
